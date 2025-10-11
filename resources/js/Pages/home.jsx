@@ -40,7 +40,7 @@ export default function Home() {
               </div>
               <div className='flex justify-between w-[50%] pt-5'>
                 {
-                  role==='user'?(
+                  role!=='user'?(
                   <>
                     <motion.button 
                     initial={{scale:0, opacity:0}}
