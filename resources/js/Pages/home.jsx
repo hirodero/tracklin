@@ -26,8 +26,14 @@ export default function Home() {
           </div>
           <div className="flex justify-center items-center flex-col h-[75%] rounded-2xl text-8xl [-webkit-text-stroke:0.4px_black] [text-shadow:_4px_4px_0_#000] font-extralight text-white">
             <motion.div 
-            initial={{opacity:0, x:-100}}
-            animate={{opacity:1, x:0}}
+            initial={{
+              opacity:0, 
+              x:-100
+            }}
+            animate={{
+              opacity:1, 
+              x:0
+            }}
             transition={{duration:1}}
             className='flex flex-col justify-center items-center'>
               <p>
@@ -40,9 +46,19 @@ export default function Home() {
             <div className='flex flex-row w-full h-full'>
               <div className='flex flex-col items-center w-[25%] h-full justify-baseline'>
                 <motion.div 
-                initial={{scale:0, opacity:0}}
-                animate={{scale:1, opacity:1}}
-                transition={{duration:0.9, ease:'circOut',type:'spring'}}
+                initial={{
+                  scale:0, 
+                  opacity:0
+                }}
+                animate={{
+                  scale:1, 
+                  opacity:1
+                }}
+                transition={{
+                  duration:0.9, 
+                  ease:'circOut',
+                  type:'spring'
+                }}
                 className='flex flex-col w-[65%] h-full justify-center items-center'>
                   <Note/>
                 </motion.div>
@@ -52,16 +68,37 @@ export default function Home() {
                   role!=='user'?(
                   <>
                     <motion.button 
-                    initial={{scale:0, opacity:0}}
-                    animate={{scale:1, opacity:1}}
-                    transition={{duration:0.9, ease:'circOut',type:'spring'}}
+                    initial={{
+                      scale:0, 
+                      opacity:0
+                    }}
+                    animate={{
+                      scale:1, 
+                      opacity:1
+                    }}
+                    transition={{
+                      duration:0.9, 
+                      ease:'circOut',
+                      type:'spring'
+                    }}
                     className='w-[300px] h-[100px]'>
                       <SignIn/>
                     </motion.button>
                     <motion.button 
-                    initial={{scale:0, opacity:0}}
-                    animate={{scale:1, opacity:1}}
-                    transition={{duration:0.9, ease:'easeInOut', type:'spring', delay:0.2}}
+                    initial={{
+                      scale:0, 
+                      opacity:0
+                    }}
+                    animate={{
+                      scale:1, 
+                      opacity:1
+                    }}
+                    transition={{
+                      duration:0.9, 
+                      ease:'easeInOut', 
+                      type:'spring', 
+                      delay:0.2
+                    }}
                     className='w-[300px] h-[100px]'>
                         <Link href={'/about'}>
                             <LearnMore/>
@@ -74,7 +111,10 @@ export default function Home() {
                         <motion.div
                         initial={{opacity:0}}
                         animate={{opacity:1}}
-                        transition={{duration:0.4, ease:'easeInOut'}}
+                        transition={{
+                          duration:0.4, 
+                          ease:'easeInOut'
+                        }}
                         onHoverStart={()=>setToDo(true)} 
                         onHoverEnd={()=>setToDo(false)}
                         className="flex justify-center items-center gap-x-3 pr-5 hover:opacity-75 cursor-pointer hover:scale-102 transition duration-500 ease-in-out w-[175px] h-[175px] bg-white/90 outline-4 outline-blue-600 ring-8 rounded-full">
@@ -89,7 +129,10 @@ export default function Home() {
                         <motion.div
                         initial={{opacity:0}}
                         animate={{opacity:1}}
-                        transition={{duration:0.4, ease:'easeInOut'}}
+                        transition={{
+                          duration:0.4, 
+                          ease:'easeInOut'
+                        }}
                         onHoverStart={()=>setClock(true)} 
                         onHoverEnd={()=>setClock(false)}
                         className="flex justify-center items-center hover:opacity-75 cursor-pointer hover:scale-102 transition duration-500 ease-in-out w-[175px] h-[175px] bg-white/90 outline-4 outline-blue-600 ring-8 rounded-full">
@@ -99,16 +142,25 @@ export default function Home() {
                             Set Alarm
                         </p>
                     </div>
-                    </>
-                    
+                    </> 
                   )
                 }
               </div>  
               <div className='flex flex-row w-[25%] h-full justify-center'>
                 <motion.div 
-                initial={{scale:0, opacity:0}}
-                animate={{scale:1, opacity:1}}
-                transition={{duration:0.9, ease:'circOut',type:'spring'}}
+                initial={{
+                  scale:0, 
+                  opacity:0
+                }}
+                animate={{
+                  scale:1, 
+                  opacity:1
+                }}
+                transition={{
+                  duration:0.9, 
+                  ease:'circOut',
+                  type:'spring'
+                }}
                 className='w-[180px] h-[170px]'>
                   <PersonalComputer/>
                 </motion.div>
