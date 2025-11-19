@@ -248,6 +248,11 @@ export const Calendar = (props) => {
   )
 }
 
+export const CalendarImage = (props) => {
+  return(
+    <img className='w-full h-full object-contain' src='/assets/calendarIMG.png'/>
+  )
+}
 
 
 export const Pencil = ({props, size}) => {
