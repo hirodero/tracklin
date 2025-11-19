@@ -91,13 +91,13 @@ export default function Header({ sidebar, role, userData }) {
 
                             <div className="flex flex-col justify-center items-start h-[64%] border-y-3 border-white px-[10%]">
                                 <div className="ml-5 mr-5 bg-[#87BDFF] text-[#245FBB] px-[10%] py-[3%] rounded-xl w-[90%] font-medium text-[1.8vw]">
-                                Username
+                                    Username
                                 </div>
                             </div>
 
                             <div className="flex justify-center items-center h-[18%]">
                                 <p className="text-[#428DF5] text-4xl"
-                                style={{textShadow: `-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B`}}>
+                                    style={{textShadow: `-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B`}}>
                                     Tracklin Agent
                                 </p>
                             </div>
