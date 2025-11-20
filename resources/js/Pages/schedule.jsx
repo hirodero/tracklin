@@ -114,10 +114,9 @@ export default function SchedulePage() {
   const openPopup = (task = null) => {
     const now = new Date();
 
-    // Cek tanggal masa lalu sebelum buka popup
     if (!task && selectedDate < new Date(today.setHours(0, 0, 0, 0))) {
       alert("You cannot add task to a past date");
-      return; // jangan buka popup
+      return; 
     }
 
     if (task) {
@@ -267,13 +266,6 @@ export default function SchedulePage() {
                 >
                   Add New Task
                 </button>
-
-                  {/* <img
-                  src="../assets/monitor.png"
-                  alt="decor"
-                  className="absolute right-[-170px] mb-10 w-40 h-40 pointer-events-none select-none"
-                /> */}
-
               </div>
             </div>
           </div>
