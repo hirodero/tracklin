@@ -1,5 +1,3 @@
-// resources/js/Pages/ForgotPassword.jsx
-
 import React from 'react';
 import { Link, useForm } from '@inertiajs/react'; 
 import { Mail } from 'lucide-react'; 
@@ -7,7 +5,7 @@ import { Logo } from '../components/ui/attributes';
 
 export default function ForgotPassword({ onNavigate }) { 
     const { data, setData, post, processing, errors } = useForm({
-        email: 'user@example.com', 
+        
     });
 
     const submit = (e) => {
@@ -30,10 +28,10 @@ export default function ForgotPassword({ onNavigate }) {
             <div className="flex flex-col items-center w-full max-w-[600px] gap-7">
                 <Logo/>
             
-                <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4] min-h-[500px]">
-                <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Reset Your Password</p>
+                <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4]">
+                <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Reset Your Password!</p>
                     <form onSubmit={submit} className="flex flex-col w-full gap-6">
-                        
+
                         <div className="relative">
                             <Mail className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-blue-500" />
                             <input
@@ -46,8 +44,6 @@ export default function ForgotPassword({ onNavigate }) {
                                 required
                             />
                         </div>
-
-                        {/* Link Back to Login */}
                         <div className="flex flex-col items-start text-sm text-[#0026A4] mt-2">
                              <div className="flex justify-start">
                                 <p>Back to login?</p>

@@ -36,7 +36,6 @@ export default function ToDoList() {
   const [editMinute,setEditMinute] = useState(null)
   const [showEditPopup,setShowEditPopup] = useState(false)
 
-  // ---------- SYNC LOCALSTORAGE ----------
   useEffect(() => { localStorage.setItem('tasks', JSON.stringify(tasks)) }, [tasks])
 
   const validateAndBuildTask = ({text,dateStr,hour,minute,now=new Date()}) => {

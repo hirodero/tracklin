@@ -262,7 +262,7 @@ export default function SchedulePage() {
                 </button>
                   <button
                   onClick={() => openPopup()}
-                  className="absolute right-[-200px] mt-2 bg-[#1976D2] text-white text-2xl border-2 px-4 py-2 rounded-xl border-[#03045E] shadow-xl hover:opacity-80 transition"
+                  className="absolute right-[-200px] mt-2 bg-[#1976D2] text-white text-2xl px-5 py-3 rounded-full border-3 border-[#03045E] hover:opacity-80 transition"
                 >
                   Add New Task
                 </button>
