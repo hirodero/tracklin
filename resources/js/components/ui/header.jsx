@@ -35,7 +35,7 @@ export default function Header({ sidebar, role, userData }) {
                             {links.map((item, i) => {
                                 const active =
                                 url === item.href ||
-                                (item.name === 'Features' && url.startsWith('/todolist'))
+                                (item.name === 'Features' && (url.startsWith('/todolist') || url === '/schedule'))
 
                                 return (
                                 <div
