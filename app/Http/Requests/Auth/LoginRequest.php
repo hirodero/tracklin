@@ -16,7 +16,7 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    public function authenticated(): void {
+    public function authenticate(): void {
         if (! Auth::attempt($this->only('email', 'password'))) {
             throw ValidationException::withMessages([
                 'email'=> __('auth.failed'),

@@ -1,13 +1,18 @@
 'use client'
-import { Link, usePage } from '@inertiajs/react'
-import { useState } from 'react'
-import { Profil, Close_Button, Setting_Button, Logo} from "./attributes"
-import { router } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+import { Profil, Close_Button, Setting_Button, Logo} from "./attributes";
+import { router } from '@inertiajs/react';
+import { truncate } from '@/lib/utils';
 
 export default function Header({ sidebar, role, userData }) {
-    const { url } = usePage()
+    const { props, url } = usePage()
     const [showProfile, setShowProfile] = useState(false)
     const [showSettings, setShowSettings] = useState(false)
+
+    const auth = props.auth ?? {};
+    const user = auth.user ?? null;
+    const username = truncate(user?.name, 20) ?? 'Guest';
 
     const links = [
         { name: 'Home', href: '/' },
@@ -21,6 +26,10 @@ export default function Header({ sidebar, role, userData }) {
         } else {
         setShowProfile(true)
         }
+    }
+
+    const handleLogOut = () => {
+        router.post('/logout');
     }
 
     const handleSettingsClick = () => setShowSettings(true)
@@ -89,10 +98,18 @@ export default function Header({ sidebar, role, userData }) {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col justify-center items-start h-[64%] border-y-3 border-white px-[10%]">
+                            <div className="flex flex-col justify-center items-center h-[64%] border-y-3 border-white px-[10%] gap-4">
                                 <div className="ml-5 mr-5 bg-[#87BDFF] text-[#245FBB] px-[10%] py-[3%] rounded-xl w-[90%] font-medium text-[1.8vw]">
-                                    Username
+                                    {username}
                                 </div>
+
+                                {user && (<button
+                                        onClick={handleLogOut}
+                                            className='cursor-pointer outline-blue-600 ring-white ring-4 active:scale-90 active:opacity-100 duration-75 ease-in-out hover:opacity-70 bg-blue-700/80 outline-2 w-[100px] text-white text-xl h-[50px] rounded-2xl'>
+                                        Log Out
+                                        </button>          
+                                )}
+                                
                             </div>
 
                             <div className="flex justify-center items-center h-[18%]">

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Logo } from '../components/ui/attributes';
 
 export default function Login() {
     const [formData, setFormData] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -18,8 +18,10 @@ export default function Login() {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Logging in with:", formData);
-        // later you’ll send this to your backend API using axios/fetch or Inertia.post()
+        router.post('/login', {
+            email: formData.email,
+            password: formData.password
+        });
     };
 
     return (
@@ -37,9 +39,9 @@ export default function Login() {
                     <form onSubmit={handleSubmit} className="flex flex-col w-full gap-6">
                         <input
                             type="text"
-                            name="username"
-                            placeholder="Username/ Email"
-                            value={formData.username}
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email}
                             onChange={handleChange}
                             className="p-3 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-400 w-full"
                             required
