@@ -1,4 +1,5 @@
 'use client'
+
 import { Link, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 import { Profil, Close_Button, Setting_Button, Logo } from "./attributes"
@@ -8,7 +9,10 @@ import { truncate } from '@/lib/utils'
 export default function Header({ sidebar, role, userData }) {
     const { url, props } = usePage();
     const [showProfile, setShowProfile] = useState(false)
-    const [showSettings, setShowSettings] = useState(false)
+    const [showLogoutPopup, setShowLogoutPopup] = useState(false)
+
+    const hiddenPages = ['/login', '/register', '/forgot-password']
+    if (hiddenPages.includes(url)) return null;
 
     const auth = props?.auth ?? {};
     const user = auth?.user ?? null;
@@ -30,8 +34,9 @@ export default function Header({ sidebar, role, userData }) {
         }
     }
 
-    const handleSettingsClick = () => setShowSettings(true)
-    const handleBackClick = () => setShowSettings(false)
+    const handleLogout = () => {
+        router.visit('/logout')
+    }
 
     const handleLogout = () => {
         router.post('/logout');
@@ -39,7 +44,7 @@ export default function Header({ sidebar, role, userData }) {
 
     return (
         <>
-            <div className="w-screen h-[10%] shadow-2xl [shadow:_1px_1px_4_#000] fixed top-0 z-25">
+            <div className="w-screen h-[10%] shadow-2xl fixed top-0 z-25">
                 <div className="w-full h-full bg-[#03045E]">
                     <div className="flex ml-auto w-[30%] justify-center items-center h-full">
                         <div className="flex justify-evenly items-center text-2xl h-full w-[80%] text-white">
@@ -63,8 +68,7 @@ export default function Header({ sidebar, role, userData }) {
 
                         <div className="flex justify-center items-center h-full w-[20%]">
                             <div className="flex justify-center items-center w-[65%] h-full cursor-pointer">
-                                <div onClick={handleProfileClick}
-                                    className="hover:opacity-75 hover:scale-98 transition duration-75 ease-in-out">
+                                <div onClick={handleProfileClick} className="hover:opacity-75 hover:scale-98 transition duration-75 ease-in-out">
                                     <Profil className="w-12 h-12 rounded-full border-2 border-white" />
                                 </div>
                             </div>
@@ -73,6 +77,7 @@ export default function Header({ sidebar, role, userData }) {
                 </div>
             </div>
 
+            {/* Profile Card */}
             {showProfile && (
                 <div className="fixed inset-0 backdrop-blur-md flex justify-center items-center z-50"
                      onClick={() => setShowProfile(false)}>
@@ -118,6 +123,30 @@ export default function Header({ sidebar, role, userData }) {
                                     Tracklin Agent
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showLogoutPopup && (
+                <div className="fixed inset-0 backdrop-blur-md flex justify-center items-center z-60"
+                     onClick={() => setShowLogoutPopup(false)}>
+                    <div
+                        className="bg-white border-4 border-[#1646A9] rounded-2xl px-35 py-10 w-[80%] md:w-[40%] text-center shadow-lg"
+                        onClick={(e) => e.stopPropagation()}>
+                        <p className="text-xl text-[#0D47A1] font-semibold mb-6">
+                            Are you sure to log out from "{userData?.name || 'account'}"?
+                        </p>
+                        <div className="flex justify-around">
+                            <button
+                                onClick={handleLogout}
+                                className="bg-[#1646A9] text-white border-2 px-6 py-3 rounded-xl hover:opacity-70">
+                                Yes
+                            </button>
+                            <button
+                                onClick={() => setShowLogoutPopup(false)}
+                                className="bg-[#1976D2] text-white border-2 px-6 py-3 rounded-xl hover:opacity-70">
+                                No
+                            </button>
                         </div>
                     </div>
                 </div>

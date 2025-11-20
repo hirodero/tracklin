@@ -22,6 +22,7 @@ $items = array_map(function($page){
      'home' : $name;
 },$pages);
 
+
 $associate = array_map(function($a, $b){
     return ['page'=>$a, 'file'=>$b];
 },$pages,$items);
