@@ -10,13 +10,6 @@ export default function Header({ sidebar, role, userData }) {
     const [showProfile, setShowProfile] = useState(false)
     const [showLogoutPopup, setShowLogoutPopup] = useState(false)
 
-    const hiddenPages = ['/login', '/register', '/forgot-password']
-    if (hiddenPages.includes(url)) return null;
-
-    // Jangan tampilkan Header di halaman login, register, forgot-password
-    const hiddenPages = ['/login', '/register', '/forgot-password']
-    if (hiddenPages.includes(url)) return null;
-
     const links = [
         { name: 'Home', href: '/' },
         { name: 'About', href: '/about' },
