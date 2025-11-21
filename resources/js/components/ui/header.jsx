@@ -4,11 +4,16 @@ import { Link, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 import { Profil, Close_Button, Logo } from "./attributes"
 import { router } from '@inertiajs/react'
+import { truncate } from '@/lib/utils'
 
 export default function Header({ sidebar, role, userData }) {
-    const { url } = usePage()
+    const { url, props } = usePage()
     const [showProfile, setShowProfile] = useState(false)
     const [showLogoutPopup, setShowLogoutPopup] = useState(false)
+
+    const auth = props?.auth ?? {};
+    const user = auth?.user ?? null;
+    const username = truncate(user?.name, 20) ?? 'Guest';
 
     const hiddenPages = ['/login', '/register', '/forgot-password']
     if (hiddenPages.includes(url)) return null;
@@ -28,7 +33,9 @@ export default function Header({ sidebar, role, userData }) {
     }
 
     const handleLogout = () => {
-        router.visit('/logout')
+        router.post('/logout');
+        setShowLogoutPopup(false);
+        setShowProfile(false);
     }
 
     return (
@@ -65,7 +72,6 @@ export default function Header({ sidebar, role, userData }) {
                 </div>
             </div>
 
-            {/* Profile Card */}
             {showProfile && (
                 <div className="fixed inset-0 backdrop-blur-md flex justify-center items-center z-50"
                      onClick={() => setShowProfile(false)}>
@@ -84,10 +90,10 @@ export default function Header({ sidebar, role, userData }) {
 
                         <div className="flex flex-col w-[65%] relative">
                             <div className="flex justify-end items-center h-[18%] pr-[5%] pt-[2%] space-x-[3%]">
-                                <div onClick={() => setShowLogoutPopup(true)} 
+                                {user && <div onClick={() => setShowLogoutPopup(true)} 
                                      className="bg-[#005ec2] border-[#0D277B] border-3 #023e8a hover:opacity-60 px-4 py-2 rounded-xl cursor-pointer font-semibold">
                                     Logout
-                                </div>
+                                </div>}
                                 <div onClick={() => setShowProfile(false)} className="w-[5%] cursor-pointer hover:opacity-60">
                                     <Close_Button />
                                 </div>
@@ -95,7 +101,7 @@ export default function Header({ sidebar, role, userData }) {
 
                             <div className="flex flex-col justify-center items-start h-[64%] border-y-3 border-white px-[10%]">
                                 <div className="ml-5 mr-5 bg-[#87BDFF] text-[#245FBB] px-[10%] py-[3%] rounded-xl w-[90%] font-medium text-[1.8vw]">
-                                    {userData?.name || 'Username'}
+                                    {username}
                                 </div>
                             </div>
 
@@ -116,7 +122,7 @@ export default function Header({ sidebar, role, userData }) {
                         className="bg-white border-4 border-[#1646A9] rounded-2xl px-35 py-10 w-[80%] md:w-[40%] text-center shadow-lg"
                         onClick={(e) => e.stopPropagation()}>
                         <p className="text-xl text-[#0D47A1] font-semibold mb-6">
-                            Are you sure to log out from "{userData?.name || 'account'}"?
+                            Are you sure to log out from {username} ?
                         </p>
                         <div className="flex justify-around">
                             <button

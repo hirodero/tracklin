@@ -19,7 +19,8 @@ export default function About(){
                 transition={{duration:0.4, type:'tween'}}
                 className="w-[80%] h-[70%] p-4 text-black text-2xl bg-white/80 rounded-2xl [-webkit-text-stroke:1px_black] outline-3 shadow-2xl">
                     <p className="text-wrap">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Tracklin is an online todo list and schedule handler. 
+                        We aim to improve the user productivity and time management.
                     </p>
                 </motion.div>
             </div>
