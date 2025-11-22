@@ -12,7 +12,7 @@ export default function OTPVerification({ email, onNavigate }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('otp.verify'), data);
+        post('/verify-otp', data);
     };
 
     return (
@@ -53,7 +53,7 @@ export default function OTPVerification({ email, onNavigate }) {
                         <div className="text-sm text-center text-[#0026A4]">
                             <button
                                 type="button"
-                                onClick={() => router.post(route('otp.resend'))}
+                                onClick={() => router.post("/otp/resend")}
                                 className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]"
                             >
                                 Resend code

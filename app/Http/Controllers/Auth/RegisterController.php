@@ -33,14 +33,13 @@ class RegisterController extends Controller
     Cache::put($otpKey, $hashedOtp, now()->addMinutes(10));
     Cache::put($attemptsKey, 0,       now()->addMinutes(10));
 
-    session(['otp_email' => $email]);
-
+    
     Mail::raw("Your Tracklin verification code is: {$otp}", function ($message) use ($user) {
         $message->to($user->email)
-                ->subject('Your Tracklin OTP Code');
+        ->subject('Your Tracklin OTP Code');
     });
-
-    // 👇 THIS is the “hook” to OTPVerification.jsx
-    return redirect()->route('otp.show');
+    
+    session(['otp_email' => $email]);
+        return redirect()->route('otp.show');
     }
 }

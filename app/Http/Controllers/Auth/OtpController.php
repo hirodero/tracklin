@@ -32,8 +32,7 @@ class OtpController extends Controller
         ]);
     }
 
-    public function verify(Request $request): RedirectResponse
-    {
+    public function verify(Request $request): RedirectResponse {
         $request->validate([
             'otp_code' => ['required', 'digits:6'],
         ]);
