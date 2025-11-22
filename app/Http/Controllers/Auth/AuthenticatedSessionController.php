@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -19,11 +21,22 @@ class AuthenticatedSessionController extends Controller
         $isEmail = filter_var($login, FILTER_VALIDATE_EMAIL) !== false;
         $field = $isEmail ? 'email' : 'name';
 
-        if (!Auth::attempt([$field => $login, 'password' => $password])) {
+        $user = User::where($field, $login)->first();
+
+        if (! $user || !Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
                 'login' => ['Invalid Credentials'],
             ]);
         }
+
+        if (! $user->email_verified_at) {
+            throw ValidationException::withMessages([
+                'login' => ['Email not verified'],
+            ]);
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+        
         $request->session()->regenerate();
 
         return redirect()->intended('/');

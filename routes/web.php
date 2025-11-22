@@ -12,7 +12,6 @@ $staticPages = [
     '/',
     '/about',
     '/features',
-    '/otpverification',
     '/timer'
 ];
 
@@ -33,10 +32,8 @@ Route::post('/register', [RegisterController::class, 'store'])->middleware('thro
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:5,1');
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
-Route::get('/verify-otp', [OtpController::class, 'show'])->name('otp.show');
 Route::post('/verify-otp', [OtpController::class, 'verify'])->name('otp.verify');
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
-
 
 
 Route::get('/verify-otp', [OtpController::class, 'show'])->name('otp.show');
