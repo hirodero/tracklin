@@ -1,21 +1,21 @@
 import React from 'react';
-import { Link, useForm } from '@inertiajs/react'; 
+import { Link, useForm, usePage } from '@inertiajs/react'; 
 import { Mail } from 'lucide-react'; 
 import { Logo } from '../components/ui/attributes'; 
 
 export default function ForgotPassword({ onNavigate }) { 
-    const { data, setData, post, processing, errors } = useForm({
-        
+    const { data, setData, post, processing } = useForm({
+        email: '',
     });
+
+    const { errors, status, flash } = usePage().props || {};
 
     const submit = (e) => {
         e.preventDefault();
-        if (onNavigate) {
-             onNavigate(data.email); 
-        } else {
-             post('/verify-otp'); 
-        }
+        post('/forgot-password');
     };
+
+    const success_msg = (flash && flash.success) || status || '';
 
     return (
         <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-12">
@@ -29,6 +29,16 @@ export default function ForgotPassword({ onNavigate }) {
             
                 <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4]">
                 <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Reset Your Password!</p>
+                {success_msg && (
+                    <p className="text-green-600 text-sm text-center mb-4">
+                        {successMessage}
+                    </p>
+                )}
+                {errors && errors.email && (
+                    <p className="text-red-500 text-sm text-center mb-2">
+                        {errors.email}
+                    </p>
+                )}
                     <form onSubmit={submit} className="flex flex-col w-full gap-6">
 
                         <div className="relative">
@@ -54,7 +64,7 @@ export default function ForgotPassword({ onNavigate }) {
                         
                         <button type="submit" 
                         className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]">
-                            Send Reset Link
+                            {processing ? 'Sending...' : 'Send Reset Link'}
                         </button>
                         
                     </form>
