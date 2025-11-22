@@ -18,15 +18,20 @@ export default function Register() {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        router.post('/register', {
-            name: formData.username,
-            email: formData.email,
-            password: formData.password,
-            password_confirmation: formData.ReenterPassword,
-        });
+    e.preventDefault();
 
-    };
+    router.post('/register', {
+        name: formData.username,
+        email: formData.email,
+        password: formData.password,
+        password_confirmation: formData.ReenterPassword,
+    }, {
+        onSuccess: () => {
+            console.log("Registered → redirected to verify-otp");
+        }
+    });
+};
+
     
     return (
         <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-12">

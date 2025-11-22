@@ -2,26 +2,31 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+// Controllers
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\TaskController;
 
 
+// ==========================
+// STATIC PAGES (PUBLIC)
+// ==========================
 $staticPages = [
     '/',
     '/about',
     '/features',
-    '/otpverification',
-    '/timer'
+    '/timer',
 ];
 
+// match / → home.jsx, /about → about.jsx, etc
 $items = array_map(function ($page) {
     return ($name = ltrim($page, '/')) === '' ? 'home' : $name;
 }, $staticPages);
 
-$associate = array_map(function ($a, $b) {
-    return ['page' => $a, 'file' => $b];
+$associate = array_map(function ($page, $file) {
+    return ['page' => $page, 'file' => $file];
 }, $staticPages, $items);
 
 foreach ($associate as $item) {
@@ -29,40 +34,83 @@ foreach ($associate as $item) {
 }
 
 
-Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:5,1');
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:5,1');
+// ==========================
+// AUTH ROUTES
+// ==========================
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+// Register Page
+Route::get('/register', fn () => Inertia::render('register'))->name('register');
+
+// Register Action (generates OTP)
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware('throttle:5,1');
+
+// Login Page
+Route::get('/login', fn () => Inertia::render('login'))->name('login');
+
+// Login Action
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('throttle:5,1');
+
+// Logout
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
+
+// ==========================
+// OTP ROUTES
+// ==========================
+
+// Show OTP Page
 Route::get('/verify-otp', [OtpController::class, 'show'])->name('otp.show');
+
+// Verify OTP
 Route::post('/verify-otp', [OtpController::class, 'verify'])->name('otp.verify');
+
+// Resend OTP
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 
 
-
-Route::get('/verify-otp', [OtpController::class, 'show'])->name('otp.show');
-Route::get('/register', fn () => Inertia::render('register'))->name("register");
-Route::get('/login', fn () => Inertia::render('login'))->name('login');
-
-Route::get('/forgot-password', function () {
-    return Inertia::render('forgotpassword');
-})->name('password.request');
+// ==========================
+// FORGOT PASSWORD
+// ==========================
+Route::get('/forgot-password', fn () => Inertia::render('forgotpassword'))
+    ->name('password.request');
 
 
+// ==========================
+// PROTECTED ROUTES (AUTH REQUIRED)
+// ==========================
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/todolist', [TaskController::class, 'index'])->name('todolist');
-    Route::get('/schedule', [TaskController::class, 'schedule'])->name('schedule');
-    Route::get('/timer', [TaskController::class, 'index'])->name('timer');
 
+    Route::get('/schedule', [TaskController::class, 'schedule'])->name('schedule');
+
+    // Timer page (if separate from static)
+    Route::get('/timer', fn () => Inertia::render('timer'))->name('timer');
+
+    // CRUD Task API
     Route::post('/tasks', [TaskController::class, 'store']);
     Route::put('/tasks/{task}', [TaskController::class, 'update']);
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 });
 
 
+// ==========================
+// DEBUG ONLY
+// ==========================
 Route::get('/whoami', function () {
     return [
         'auth_id' => auth()->id(),
         'session' => session()->all(),
     ];
+});
+
+Route::get('/test-mail', function () {
+    Mail::raw("Testing Gmail SMTP!", function ($msg) {
+        $msg->to("ichirodextherrewah@gmail.com")->subject("Gmail SMTP Working!");
+    });
+    return "sent";
 });

@@ -5,18 +5,17 @@ import { cn } from '../../lib/utils'
 export function FlickeringGrid({
   squareSize = 4,
   gridGap = 6,
-  flickerChance = 0.3, // per second-ish
+  flickerChance = 0.3, 
   color = 'rgb(0, 0, 0)',
   width,
   height,
   className,
   maxOpacity = 0.3,
-  fps = 20, // throttle ~20fps
+  fps = 20, 
 }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
 
-  // internal refs (hindari re-render)
   const inViewRef = useRef(false)
   const rafRef = useRef(null)
   const dprRef = useRef(1)
