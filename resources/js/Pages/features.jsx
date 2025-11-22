@@ -41,7 +41,7 @@ export default function Features(){
                             To-Do List 
                         </p>
                     </Link>
-                    <Link href='/todolist' className="flex flex-col w-[50%] items-center justify-center h-full gap-6">
+                    <Link href='/timer' className="flex flex-col w-[50%] items-center justify-center h-full gap-6">
                         <motion.div
                         initial={{opacity:0}}
                         animate={{opacity:1}}
