@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/todolist', [TaskController::class, 'index'])->name('todolist');
     Route::get('/schedule', [TaskController::class, 'schedule'])->name('schedule');
-    Route::get('/timer', [TaskController::class, 'timer'])->name('timer');
+    Route::get('/timer', [TaskController::class, 'index'])->name('timer');
 
     Route::post('/tasks', [TaskController::class, 'store']);
     Route::put('/tasks/{task}', [TaskController::class, 'update']);
