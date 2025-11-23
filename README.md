@@ -1,4 +1,4 @@
-1. cmd /c "mysql -u root -p < database/sql/init_tracklin.sql", atau import manual di sql
+1. cmd /c "mysql -u root -p < database/sql/init_tracklin.sql"
 2. klik enter
 3. php artisan optimize:clear
 4. php artisan config:clear
