@@ -32,8 +32,7 @@ class OtpController extends Controller
         ]);
     }
 
-    public function verify(Request $request): RedirectResponse
-    {
+    public function verify(Request $request): RedirectResponse {
         $request->validate([
             'otp_code' => ['required', 'digits:6'],
         ]);
@@ -68,7 +67,6 @@ class OtpController extends Controller
             ]);
         }
 
-        // Check code
         if (! Hash::check($request->otp_code, $hashedOtp)) {
             Cache::put($attemptsKey, $attempts + 1, now()->addMinutes($this->otpTtlMinutes));
 

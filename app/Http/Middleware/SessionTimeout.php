@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionTimeout
 {
-    protected int $idleTimeout = 60; // minute 
-    protected int $absTimeout = 12; // hours 
+    protected int $idleTimeout = 60; 
+    protected int $absTimeout = 12; 
 
 
     public function handle(Request $request, Closure $next)

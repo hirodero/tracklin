@@ -135,7 +135,6 @@ export default function Home() {
                         </p>
                       </Link>
                       <Link href={'/timer'} className="flex flex-col w-[50%] items-center justify-baseline h-full gap-6 ">
-                      {/* className="flex flex-col w-[50%] items-center justify-baseline h-full gap-6"> */}
                         <motion.div
                         initial={{opacity:0}}
                         animate={{opacity:1}}
@@ -152,7 +151,6 @@ export default function Home() {
                             Set Alarm
                         </p>
                         </Link>
-                    {/* </div> */}
                     </> 
                   )
                 }

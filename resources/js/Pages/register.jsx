@@ -18,30 +18,36 @@ export default function Register() {
     };
 
     const handleSubmit = (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    router.post('/register', {
-        name: formData.username,
-        email: formData.email,
-        password: formData.password,
-        password_confirmation: formData.ReenterPassword,
-    }, {
-        onSuccess: () => {
-            console.log("Registered → redirected to verify-otp");
-        }
-    });
-};
+        router.post(
+            '/register',
+            {
+                name: formData.username,
+                email: formData.email,
+                password: formData.password,
+                password_confirmation: formData.ReenterPassword,
+            },
+            {
+                onSuccess: () => {
+                    router.visit('/verify-otp');  
+                },
+            }
+        );
+    };
 
     
     return (
-        <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-12">
+        <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-8">
             <p onClick={() => window.history.back()}
-            className="absolute top-16 left-18 text-white text-6xl font-bold cursor-pointer hover:opacity-80 mt-15">
+            className="absolute top-3 left-18 text-white text-3xl font-bold cursor-pointer hover:opacity-80 mt-15">
             ‹ back
             </p>
         
-            <div className="flex flex-col items-center w-full max-w-[600px] gap-7">
-                <Logo/>
+            <div className="flex flex-col items-center w-full max-w-[600px]">
+                <div className="w-[100px] h-[100px]">
+                    <Logo/>
+                </div>
             
                 <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4] min-h-[500px]">
                 <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Regist your account!</p>

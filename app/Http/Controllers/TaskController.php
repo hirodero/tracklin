@@ -9,10 +9,9 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-    // ==================== PAGE: /todolist ====================
     public function index(Request $request)
     {
-        $user = $request->user(); // atau Auth::user()
+        $user = $request->user();
 
         $tasks = Task::where('user_id', $user->id)
             ->orderBy('date', 'asc')
@@ -24,13 +23,11 @@ class TaskController extends Controller
         ]);
     }
 
-    // (opsional, sebenernya nggak perlu punya todolist() lagi)
     public function todolist(Request $request)
     {
         return $this->index($request);
     }
 
-    // ==================== PAGE: /schedule ====================
     public function schedule(Request $request)
     {
         $user = $request->user();
@@ -45,18 +42,16 @@ class TaskController extends Controller
         ]);
     }
 
-    // ==================== API: POST /tasks ====================
     public function store(Request $request)
     {
         if (!Auth::check()) {
-            // Kalau sampe sini Auth::id() = null, jangan maksain insert
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
 
         $data = $request->validate([
             'text' => 'required|string|max:255',
             'date' => 'nullable|date',
-            'time' => 'nullable|string|max:5', // contoh: "14.30"
+            'time' => 'nullable|string|max:5', 
         ]);
 
         try {
@@ -68,11 +63,9 @@ class TaskController extends Controller
                 'completed' => false,
             ]);
 
-            // penting: JSON + 201
             return response()->json($task, 201);
 
         } catch (\Throwable $e) {
-            // log ke laravel.log biar ketahuan kalau ada FK error, dsb
             \Log::error('Failed to create task', [
                 'error' => $e->getMessage(),
                 'user_id' => Auth::id(),
@@ -86,7 +79,6 @@ class TaskController extends Controller
         }
     }
 
-    // ==================== API: PUT /tasks/{task} ====================
     public function update(Request $request, Task $task)
     {
         if ($task->user_id !== Auth::id()) {
@@ -118,7 +110,6 @@ class TaskController extends Controller
         }
     }
 
-    // ==================== API: DELETE /tasks/{task} ====================
     public function destroy(Request $request, Task $task)
     {
         if ($task->user_id !== Auth::id()) {

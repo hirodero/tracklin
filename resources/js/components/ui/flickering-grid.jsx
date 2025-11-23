@@ -40,10 +40,8 @@ export function FlickeringGrid({
   const setupCanvas = (canvas, w, h) => {
     const dpr = Math.max(1, window.devicePixelRatio || 1)
     dprRef.current = dpr
-    // backing store
     canvas.width = Math.max(1, Math.floor(w * dpr))
     canvas.height = Math.max(1, Math.floor(h * dpr))
-    // css size
     canvas.style.width = `${w}px`
     canvas.style.height = `${h}px`
 
@@ -105,7 +103,6 @@ export function FlickeringGrid({
     }
     resize()
 
-    // debounced resize via RAF
     let roId = null
     const ro = new ResizeObserver(() => {
       if (roId) cancelAnimationFrame(roId)
@@ -113,7 +110,6 @@ export function FlickeringGrid({
     })
     ro.observe(container)
 
-    // observe container (lebih stabil dari canvas)
     const io = new IntersectionObserver(
       ([entry]) => {
         inViewRef.current = entry.isIntersecting
@@ -132,7 +128,7 @@ export function FlickeringGrid({
       if (elapsed < frameIntervalRef.current) return
       lastFrameRef.current = now
 
-      const dt = Math.min(elapsed / 1000, 1 / 20) // clamp 50ms
+      const dt = Math.min(elapsed / 1000, 1 / 20) 
       const lambda = Math.max(0, flickerChance)
       const effectiveChance = 1 - Math.exp(-lambda * dt)
 

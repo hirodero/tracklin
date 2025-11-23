@@ -16,7 +16,7 @@ public function up(): void
         $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
         $table->string('text', 255);
         $table->date('date')->nullable();
-        $table->char('time', 5)->nullable(); // HH.MM
+        $table->char('time', 5)->nullable();
         $table->boolean('completed')->default(false);
         $table->timestamps();
 
