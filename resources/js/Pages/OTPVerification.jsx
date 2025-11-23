@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, useForm, usePage, router } from '@inertiajs/react'; 
 import { Logo } from '../components/ui/attributes'; 
 
-export default function OTPVerification({ email, onNavigate }) {
-    const { errors, flash } = usePage().props;
+export default function OTPVerification({ email }) {
+    const { errors } = usePage().props;
+
     const { data, setData, post, processing } = useForm({
         otp_code: '',
     });
@@ -15,11 +16,22 @@ export default function OTPVerification({ email, onNavigate }) {
         post('/verify-otp', data);
     };
 
+    const handleResend = () => {
+        router.post("/otp/resend", {}, {
+            onStart: () => setResending(true),
+            onFinish: () => setResending(false),
+        });
+    };
+
+    const [resending, setResending] = React.useState(false);
+
     return (
         <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-12">
-            <p onClick={() => window.history.back()}
-            className="absolute top-3 left-18 text-white text-3xl font-bold cursor-pointer hover:opacity-80 mt-15">
-            ‹ back
+            <p
+                onClick={() => window.history.back()}
+                className="absolute top-3 left-18 text-white text-3xl font-bold cursor-pointer hover:opacity-80 mt-15"
+            >
+                ‹ back
             </p>
 
             <div className="flex flex-col items-center w-full max-w-[600px] ">
@@ -28,11 +40,15 @@ export default function OTPVerification({ email, onNavigate }) {
                 </div>
 
                 <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4] min-h-[500px]">
-                <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Verify OTP</p>
+                    <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">
+                        Verify OTP
+                    </p>
+
                     <form onSubmit={submit} className="flex flex-col w-full gap-6">
                         
                         <p className="text-sm text-center text-gray-700">
-                            Enter 6 digit code sent to your email: <span className="font-semibold text-[#0026A4]">{userEmail}</span>
+                            Enter the 6-digit code sent to <br/>
+                            <span className="font-semibold text-[#0026A4]">{userEmail}</span>
                         </p>
                         
                         <input
@@ -41,7 +57,7 @@ export default function OTPVerification({ email, onNavigate }) {
                             placeholder="Enter 6-Digit Code"
                             value={data.otp_code}
                             onChange={(e) => setData('otp_code', e.target.value.slice(0, 6))}
-                            className="p-3 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-400 w-full text-center"
+                            className="p-3 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-400 w-full text-center tracking-[0.3em] text-lg"
                             maxLength="6"
                             required
                         />
@@ -51,23 +67,40 @@ export default function OTPVerification({ email, onNavigate }) {
                                 {errors.otp_code}
                             </p>
                         )}
-                        
-                        <div className="text-sm text-center text-[#0026A4]">
-                            <button
-                                type="button"
-                                onClick={() => router.post("/otp/resend")}
-                                className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg px-4 py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]"
-                            >
-                                Resend code
-                            </button>
-                        </div>
+
+                        <button
+                            type="button"
+                            onClick={handleResend}
+                            disabled={resending}
+                            className={`bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg px-4 py-3 rounded-2xl shadow-md border-2 border-[#0026A4] transition active:scale-95
+                                ${resending ? "opacity-70 cursor-not-allowed" : ""}
+                            `}
+                        >
+                            {resending ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Sending...
+                                </div>
+                            ) : (
+                                "Resend Code"
+                            )}
+                        </button>
                         
                         <button 
-                            type="submit" 
-                            className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]"
+                            type="submit"
                             disabled={processing}
+                            className={`mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg py-3 rounded-2xl shadow-md transition active:scale-95 border-2 border-[#0026A4]
+                                ${processing ? "opacity-70 cursor-not-allowed" : ""}
+                            `}
                         >
-                            {processing ? 'Verifying...' : 'Verify'}
+                            {processing ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Verifying...
+                                </div>
+                            ) : (
+                                "Verify"
+                            )}
                         </button>
                     </form>
                 </div>
