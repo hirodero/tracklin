@@ -4,7 +4,8 @@ import "../../css/app.css";
 import { useState, useEffect } from "react";
 import Header from "../components/ui/header";
 import { PencilEdit, Trash, Logo } from "../components/ui/attributes";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
+
 const csrfToken =
   typeof document !== "undefined"
     ? document.querySelector('meta[name="csrf-token"]')?.getAttribute("content")
@@ -30,6 +31,12 @@ export default function SchedulePage({ tasks: initialTasks }) {
   const [showCalendar, setShowCalendar] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(today);
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const [toast, setToast] = useState(null);
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2500);
+  };
 
   const addTaskToDB = async (payload) => {
     const res = await fetch("/tasks", {
@@ -98,15 +105,17 @@ export default function SchedulePage({ tasks: initialTasks }) {
 
   const weekDates = getWeekDates(startDate);
   const handleSelect = (d) => setSelectedDate(d);
+
   const goBackFresh = () => {
     window.history.back();
     setTimeout(() => {
       router.reload({
         preserveScroll: true,
-        preserveState: false
+        preserveState: false,
       });
     }, 80);
   };
+
   const goPrev = () => {
     const newStart = new Date(startDate);
     newStart.setDate(startDate.getDate() - 7);
@@ -177,12 +186,10 @@ export default function SchedulePage({ tasks: initialTasks }) {
         completed: !current.completed,
       });
 
-      setTasks((prev) =>
-        prev.map((t) => (t.id === id ? updated : t))
-      );
+      setTasks((prev) => prev.map((t) => (t.id === id ? updated : t)));
     } catch (err) {
       console.error(err);
-      alert("Failed to update task.");
+      showToast("Failed to update task.");
     }
   };
 
@@ -191,7 +198,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
     todayMidnight.setHours(0, 0, 0, 0);
 
     if (!task && selectedDate < todayMidnight) {
-      alert("You cannot add task to a past date");
+      showToast("You cannot add a task to a past date.");
       return;
     }
 
@@ -216,7 +223,10 @@ export default function SchedulePage({ tasks: initialTasks }) {
   };
 
   const savePopup = async () => {
-    if (!popupText.trim()) return alert("Task cannot be empty!");
+    if (!popupText.trim()) {
+      showToast("Task cannot be empty.");
+      return;
+    }
 
     const selectedDateStr = `${selectedDate.getFullYear()}-${pad(
       selectedDate.getMonth() + 1
@@ -230,8 +240,10 @@ export default function SchedulePage({ tasks: initialTasks }) {
     ) {
       const chosen = new Date(selectedDate);
       chosen.setHours(popupHour, popupMinute, 0, 0);
-      if (chosen <= now)
-        return alert("⛔ Cannot set time in the past for today!");
+      if (chosen <= now) {
+        showToast("Time must be later than the current time.");
+        return;
+      }
     }
 
     const formattedTime =
@@ -262,7 +274,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
       setShowPopup(false);
     } catch (err) {
       console.error(err);
-      alert("Failed to save task.");
+      showToast("Failed to save task.");
     }
   };
 
@@ -274,7 +286,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
       setTasks((prev) => prev.filter((t) => t.id !== task.id));
     } catch (err) {
       console.error(err);
-      alert("Failed to delete task.");
+      showToast("Failed to delete task.");
     }
   };
 
@@ -302,7 +314,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
                 className="absolute -top-10 left-4 text-white text-2xl font-bold"
                 style={{
                   textShadow:
-                    `-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B`,
+                    "-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B",
                 }}
               >
                 Your schedule
@@ -311,7 +323,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
                 className="absolute -top-10 right-4 text-white text-2xl font-bold cursor-pointer hover:text-blue-300 transition-colors duration-200"
                 style={{
                   textShadow:
-                    `-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B`,
+                    "-2.5px -2.5px 0 #0D277B, 2.5px -2.5px 0 #0D277B, -2.5px  2.5px 0 #0D277B, 2.5px  2.5px 0 #0D277B",
                 }}
                 onClick={() => setShowCalendar(true)}
               >
@@ -372,12 +384,9 @@ export default function SchedulePage({ tasks: initialTasks }) {
                 </button>
 
                 <button
-                  
                   className="absolute right-[-200px] mt-2 bg-[#1976D2] text-white text-2xl px-5 py-3 rounded-full border-3 border-[#03045E] hover:opacity-80 transition"
                 >
-                  <Link href={'/todolist'}>
-                    Add New Task
-                  </Link>
+                  <Link href={"/todolist"}>Add New Task</Link>
                 </button>
               </div>
             </div>
@@ -483,7 +492,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
                   className="text-white text-3xl font-bold mb-8 mt-6"
                   style={{
                     textShadow:
-                      `-2px -2px 0 #0D277B, 2px -2px 0 #0D277B, -2px  2px 0 #0D277B, 2px  2px 0 #0D277B`,
+                      "-2px -2px 0 #0D277B, 2px -2px 0 #0D277B, -2px  2px 0 #0D277B, 2px  2px 0 #0D277B",
                   }}
                 >
                   Daily Progress
@@ -686,40 +695,50 @@ export default function SchedulePage({ tasks: initialTasks }) {
         <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
           <div className="bg-[#0D47A1] border-4 border-[#1646A9] text-blue-900 p-6 rounded-2xl shadow-xl w-[90%] max-w-md">
             <h2 className="text-white text-2xl font-bold mb-4">
-              {editingTask ? "Edit Task ✏️" : "Add Task ➕"}
+              Edit Task ✏️
             </h2>
-            <label className="text-white block text-lg mb-1">
-              Enter Task:
-            </label>
+
+            <label className="text-white block text-lg mb-1">Task:</label>
             <input
               type="text"
               value={popupText}
               onChange={(e) => setPopupText(e.target.value)}
-              className="w-full border border-blue-400 bg-white rounded-xl p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-blue-400 bg-white rounded-xl p-2 mb-4"
             />
 
             <label className="text-white block text-lg mb-1">Time:</label>
             <div className="flex justify-between gap-2 mb-6">
               <input
                 type="number"
-                value={popupHour ?? ""}
+                value={popupHour !== null ? pad(popupHour) : ""}
                 onChange={(e) => {
-                  const val = e.target.value;
-                  setPopupHour(
-                    val === "" ? null : Math.min(23, Math.max(0, Number(val)))
-                  );
+                  let v = e.target.value;
+
+                  if (v === "") {
+                    setPopupHour(null);
+                    return;
+                  }
+
+                  let num = Math.min(23, Math.max(0, Number(v)));
+                  setPopupHour(num);
                 }}
                 placeholder="HH"
                 className="bg-white w-1/2 border border-blue-400 rounded-xl p-2 text-blue-800"
               />
+
               <input
                 type="number"
-                value={popupMinute ?? ""}
+                value={popupMinute !== null ? pad(popupMinute) : ""}
                 onChange={(e) => {
-                  const val = e.target.value;
-                  setPopupMinute(
-                    val === "" ? null : Math.min(59, Math.max(0, Number(val)))
-                  );
+                  let v = e.target.value;
+
+                  if (v === "") {
+                    setPopupMinute(null);
+                    return;
+                  }
+
+                  let num = Math.min(59, Math.max(0, Number(v)));
+                  setPopupMinute(num);
                 }}
                 placeholder="MM"
                 className="bg-white w-1/2 border border-blue-400 rounded-xl p-2 text-blue-800"
@@ -733,6 +752,7 @@ export default function SchedulePage({ tasks: initialTasks }) {
               >
                 Cancel
               </button>
+
               <button
                 onClick={savePopup}
                 className="bg-[#1976D2] text-white border-2 px-4 py-2 rounded-xl hover:opacity-70"
@@ -741,6 +761,12 @@ export default function SchedulePage({ tasks: initialTasks }) {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {toast && (
+        <div className="fixed bottom-6 right-6 bg-[#0D47A1] text-white px-4 py-2 rounded-xl shadow-lg border border-blue-300 text-sm z-50">
+          {toast}
         </div>
       )}
     </div>
