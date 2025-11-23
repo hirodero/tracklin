@@ -18,12 +18,14 @@ export default function OTPVerification({ email, onNavigate }) {
     return (
         <div className="flex flex-col items-center justify-start min-h-screen bg-[#78B3F0] pt-12">
             <p onClick={() => window.history.back()}
-            className="absolute top-16 left-18 text-white text-6xl font-bold cursor-pointer hover:opacity-80 mt-15">
+            className="absolute top-3 left-18 text-white text-3xl font-bold cursor-pointer hover:opacity-80 mt-15">
             ‹ back
             </p>
 
-            <div className="flex flex-col items-center w-full max-w-[600px] gap-7">
-                <Logo/>
+            <div className="flex flex-col items-center w-full max-w-[600px] ">
+                <div className="w-[100px] h-[100px]">
+                    <Logo/>
+                </div>
 
                 <div className="flex flex-col items-center bg-white/90 p-10 rounded-3xl shadow-2xl w-full border-2 border-[#0026A4] min-h-[500px]">
                 <p className="text-blue-400 text-2xl text-center justify-center mb-10 font-semibold">Verify OTP</p>
@@ -54,7 +56,7 @@ export default function OTPVerification({ email, onNavigate }) {
                             <button
                                 type="button"
                                 onClick={() => router.post("/otp/resend")}
-                                className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]"
+                                className="mt-auto bg-[#1976D2] hover:bg-[#42A5F5] text-white text-lg px-4 py-3 rounded-2xl shadow-md active:scale-95 transition border-2 border-[#0026A4]"
                             >
                                 Resend code
                             </button>

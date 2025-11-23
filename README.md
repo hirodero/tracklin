@@ -3,3 +3,8 @@
 3. php artisan config:clear
 4. php artisan cache:clear
 5. php artisan migrate
+
+apabila terjadi error 419 (csrf token error), maka lakukan:
+1. php artisan optimize:clear
+2. php artisan view:clear
+3. php artisan config:clear
