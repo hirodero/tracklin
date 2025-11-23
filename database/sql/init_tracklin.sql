@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS tracklin
   COLLATE utf8mb4_unicode_ci;
 
 CREATE USER IF NOT EXISTS 'tracklin_user'@'localhost'
-IDENTIFIED BY 'h4rdp4ssw0rd!y0uc4ntgu3ss';
+IDENTIFIED BY 'Shes_electric';
 
 GRANT ALL PRIVILEGES ON tracklin.* TO 'tracklin_user'@'localhost';
 

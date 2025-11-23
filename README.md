@@ -10,3 +10,7 @@ apabila terjadi error 419 (csrf token error), maka lakukan:
 2. php artisan view:clear
 3. php artisan config:clear
 
+<!-- php artisan optimize:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan migrate -->
